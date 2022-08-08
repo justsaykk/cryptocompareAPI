@@ -48,7 +48,6 @@ public class apiService {
 
         // Get response:
         String payload = res.getBody();
-        System.out.printf(">> payload: %s\n", payload);
 
         // Read response:
         Reader in = new StringReader(payload);
@@ -56,10 +55,6 @@ public class apiService {
 
         // Manipulate response:
         JsonObject response = jr.readObject();
-        Integer price = response.getInt(fiat);
-        System.out.printf(">> Server Response: %s\n", response);
-        System.out.printf(">> Server Response (price): %d\n", price);
-
         return response;
     }
 
