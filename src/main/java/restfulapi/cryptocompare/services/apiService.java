@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 
 @Service
 public class apiService {
@@ -50,12 +51,12 @@ public class apiService {
         String payload = res.getBody();
 
         // Read response:
-        Reader in = new StringReader(payload);
-        JsonReader jr = Json.createReader(in);
+        Reader reader = new StringReader(payload);
+        JsonReader jr = Json.createReader(reader);
 
         // Manipulate response:
-        JsonObject response = jr.readObject();
-        return response;
+        JsonObject responseObj = jr.readObject();
+        return responseObj;
     }
 
     public Set<String> getBcList(String app) {
@@ -70,14 +71,40 @@ public class apiService {
 
         // Get response:
         String payload = res.getBody();
-        Reader in = new StringReader(payload);
-        JsonReader jr = Json.createReader(in);
+        Reader reader = new StringReader(payload);
+        JsonReader jr = Json.createReader(reader);
 
         // Manipulate response:
         JsonObject response = jr.readObject();
         JsonObject data = response.getJsonObject("Data");
         Set<String> setOfKeys = data.keySet();
         return setOfKeys;
+    }
+
+    public JsonObject getSignal(String symbol, String app) {
+        String apiStr = "https://min-api.cryptocompare.com/data/tradingsignals/intotheblock/latest";
+        String url = UriComponentsBuilder.fromUriString(apiStr)
+                .queryParam("fsym", symbol)
+                .queryParam("api_key", apiKey)
+                .queryParam("extraParams", app)
+                .toUriString();
+
+        ResponseEntity<String> res = fetch(url);
+        String payload = res.getBody();
+        Reader reader = new StringReader(payload);
+        JsonReader jr = Json.createReader(reader);
+
+        JsonObject response = jr.readObject();
+        JsonObject data = response.getJsonObject("Data");
+        JsonValue dataSymbol = data.get("symbol");
+        JsonObject inOutVar = data.getJsonObject("inOutVar");
+        JsonValue sentiment = inOutVar.get("sentiment");
+
+        JsonObject responseObj = Json.createObjectBuilder()
+                .add("symbol", dataSymbol)
+                .add("sentiment", sentiment)
+                .build();
+        return responseObj;
     }
 
 }
