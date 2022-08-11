@@ -13,6 +13,28 @@
     <form method="get" action="/api/list">
         <button type="submit">Get All!</button>
     </form>
+    </br>
+    <h2>Get Specific Coins</h2>
+    <form method="get" action="@{/api/{symbol}/{fiat}}">
+        <div>
+            <label for="symbol">Coin: </label>
+            <input type="text" name="symbol" id="symbol" />
+        </div>
+        <div>
+            <label for="fiat">Currency: </label>
+            <input type="text" name="fiat" id="fiat" />
+        </div>
+        <button type="submit">Submit!</button>
+    </form>
+    </br>
+    <h2>Get Specific coin signals</h2>
+    <form method="get" action="/api/signal">
+        <div>
+            <label for="symbol">Coin: </label>
+            <input type="text" name="symbol" id="symbol" />
+        </div>
+        <button type="submit">Submit!</button>
+    </form>
 </body>
 
 </html>
