@@ -22,7 +22,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
-import restfulapi.cryptocompare.services.ApiService;
+import restfulapi.cryptocompare.services.apiService;
 import restfulapi.cryptocompare.services.RepoService;
 
 @RestController
@@ -30,7 +30,7 @@ import restfulapi.cryptocompare.services.RepoService;
 public class apiController {
 
     @Autowired
-    private ApiService apiSvc;
+    private apiService apiSvc;
 
     @Autowired
     private RepoService repoSvc;

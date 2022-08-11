@@ -17,7 +17,7 @@ import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 
 @Service
-public class ApiService {
+public class apiService {
 
     @Value("${API_KEY}")
     private String apiKey;

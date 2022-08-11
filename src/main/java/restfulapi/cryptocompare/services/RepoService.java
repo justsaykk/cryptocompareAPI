@@ -17,7 +17,7 @@ public class RepoService {
     private Repo repo;
 
     @Autowired
-    private ApiService apiSvc;
+    private apiService apiSvc;
 
     public void save(String symbol, String sentiment) {
         CryptoSentiment cryptoSentiment = new CryptoSentiment();
