@@ -60,6 +60,6 @@ public class apiController {
     public String forwarder(@RequestBody MultiValueMap<String, String> form) {
         String symbol = form.getFirst("symbol");
         String fiat = form.getFirst("fiat");
-        return "redirect:/api/" + symbol + "/" + fiat;
+        return "redirect:/api/list";
     }
 }
