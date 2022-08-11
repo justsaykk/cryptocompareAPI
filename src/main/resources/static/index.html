@@ -15,7 +15,7 @@
     </form>
     </br>
     <h2>Get Specific Coins</h2>
-    <form method="get" action="@{/api/{symbol}/{fiat}}">
+    <form method="get" action="@{/api/{symbol}/{fiat}(symbol=${symbol}, fiat=${fiat})}">
         <div>
             <label for="symbol">Coin: </label>
             <input type="text" name="symbol" id="symbol" />
