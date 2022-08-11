@@ -56,7 +56,7 @@ public class apiController {
         return new ResponseEntity<String>(responseObj, HttpStatus.OK);
     }
 
-    @PostMapping("/symbol")
+    @PostMapping(path = "/symbol")
     public String forwarder(@RequestBody MultiValueMap<String, String> form) {
         String symbol = form.getFirst("symbol");
         String fiat = form.getFirst("fiat");
