@@ -32,7 +32,10 @@ public class RepoService {
         Optional<String> sentiment = repo.get(symbol);
 
         if (sentiment.isEmpty()) {
-            return apiSvc.getSignal(symbol);
+            JsonObject cryptoSignal = apiSvc.getSignal(symbol);
+            String sentimentValue = cryptoSignal.getString("sentiment");
+            save(symbol, sentimentValue);
+            return cryptoSignal;
         } else {
             JsonObject responseObj = Json.createObjectBuilder()
                     .add("symbol", symbol)

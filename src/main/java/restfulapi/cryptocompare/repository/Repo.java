@@ -16,7 +16,7 @@ import restfulapi.cryptocompare.models.CryptoSentiment;
 public class Repo {
 
     @Autowired
-    @Qualifier("repo")
+    @Qualifier("repository")
     private RedisTemplate<String, String> repo;
 
     @Value("${spring.redis.cachetime}")
@@ -27,6 +27,7 @@ public class Repo {
         String key = cryptoModel.getSymbol();
         String value = cryptoModel.getSentiment();
         Duration timeout = Duration.ofMinutes(cachetime);
+        System.out.print("Saving to Redis");
         ops.set(key, value, timeout);
     }
 
