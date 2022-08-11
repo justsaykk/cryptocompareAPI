@@ -17,10 +17,12 @@ import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 
 @Service
-public class apiService {
+public class ApiService {
 
     @Value("${API_KEY}")
     private String apiKey;
+
+    private final String app = "restfulApiPractice";
 
     private ResponseEntity<String> fetch(String url) {
         RestTemplate template = new RestTemplate();
@@ -35,7 +37,7 @@ public class apiService {
         }
     }
 
-    public JsonObject fetchApiSymbol(String symbol, String fiat, String app) {
+    public JsonObject fetchApiSymbol(String symbol, String fiat) {
         String apiStr = "https://min-api.cryptocompare.com/data/price";
         String url = UriComponentsBuilder.fromUriString(apiStr)
                 .queryParam("fsym", symbol)
@@ -59,7 +61,7 @@ public class apiService {
         return responseObj;
     }
 
-    public Set<String> getBcList(String app) {
+    public Set<String> getBcList() {
         String apiStr = "https://min-api.cryptocompare.com/data/blockchain/list";
         String url = UriComponentsBuilder.fromUriString(apiStr)
                 .queryParam("api_key", apiKey)
@@ -81,7 +83,7 @@ public class apiService {
         return setOfKeys;
     }
 
-    public JsonObject getSignal(String symbol, String app) {
+    public JsonObject getSignal(String symbol) {
         String apiStr = "https://min-api.cryptocompare.com/data/tradingsignals/intotheblock/latest";
         String url = UriComponentsBuilder.fromUriString(apiStr)
                 .queryParam("fsym", symbol)

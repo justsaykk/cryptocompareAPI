@@ -22,20 +22,22 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
-import restfulapi.cryptocompare.services.apiService;
+import restfulapi.cryptocompare.services.ApiService;
+import restfulapi.cryptocompare.services.RepoService;
 
 @RestController
 @RequestMapping(path = "/api")
 public class apiController {
 
     @Autowired
-    private apiService apiSvc;
+    private ApiService apiSvc;
 
-    private final String app = "restfulApiPractice";
+    @Autowired
+    private RepoService repoSvc;
 
     @GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAll() {
-        Set<String> setOfKeys = apiSvc.getBcList(app);
+        Set<String> setOfKeys = apiSvc.getBcList();
         JsonArrayBuilder arrOfKeys = Json.createArrayBuilder(setOfKeys);
         JsonObject responseObj = Json.createObjectBuilder()
                 .add("data", arrOfKeys)
@@ -47,7 +49,7 @@ public class apiController {
     public ResponseEntity<String> getSymbol(
             @PathVariable(value = "symbol") String symbol,
             @PathVariable(value = "fiat") String fiat) {
-        JsonObject response = apiSvc.fetchApiSymbol(symbol, fiat, app);
+        JsonObject response = apiSvc.fetchApiSymbol(symbol, fiat);
         String responseStr = response.toString();
         return new ResponseEntity<String>(responseStr, HttpStatus.OK);
     }
@@ -55,7 +57,8 @@ public class apiController {
     @GetMapping(path = "/signal", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getSignal(
             @RequestParam(name = "symbol") String symbol) {
-        String responseObj = apiSvc.getSignal(symbol, app).toString();
+        // String responseObj = apiSvc.getSignal(symbol).toString();
+        String responseObj = repoSvc.getSentiment(symbol).toString();
         return new ResponseEntity<String>(responseObj, HttpStatus.OK);
     }
 
