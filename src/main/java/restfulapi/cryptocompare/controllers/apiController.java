@@ -1,6 +1,9 @@
 package restfulapi.cryptocompare.controllers;
 
+import java.io.IOException;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,9 +60,11 @@ public class apiController {
     }
 
     @PostMapping(path = "/symbol")
-    public String forwarder(@RequestBody MultiValueMap<String, String> form) {
+    public void forwarder(
+            @RequestBody MultiValueMap<String, String> form,
+            HttpServletResponse response) throws IOException {
         String symbol = form.getFirst("symbol");
         String fiat = form.getFirst("fiat");
-        return "redirect:/api/list";
+        response.sendRedirect("/api/%s/%s".formatted(symbol, fiat));
     }
 }
