@@ -28,15 +28,14 @@ public class apiController {
 
     private final String app = "restfulApiPractice";
 
-    @GetMapping(path = "/list")
-    public ResponseEntity<String> getAll(Model model) {
+    @GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAll() {
         Set<String> setOfKeys = apiSvc.getBcList(app);
         JsonArrayBuilder arrOfKeys = Json.createArrayBuilder(setOfKeys);
-        String jsonStr = Json.createObjectBuilder()
+        JsonObject responseObj = Json.createObjectBuilder()
                 .add("data", arrOfKeys)
-                .build()
-                .toString();
-        return new ResponseEntity<String>(jsonStr, HttpStatus.OK);
+                .build();
+        return new ResponseEntity<String>(responseObj.toString(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{symbol}/{fiat}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +50,6 @@ public class apiController {
     @GetMapping(path = "/signal", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getSignal(
             @RequestParam(name = "symbol") String symbol) {
-
         String responseObj = apiSvc.getSignal(symbol, app).toString();
         return new ResponseEntity<String>(responseObj, HttpStatus.OK);
     }
