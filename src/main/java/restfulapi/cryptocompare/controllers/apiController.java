@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
@@ -21,7 +19,7 @@ import jakarta.json.JsonObject;
 
 import restfulapi.cryptocompare.services.apiService;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api")
 public class apiController {
 
@@ -31,19 +29,17 @@ public class apiController {
     private final String app = "restfulApiPractice";
 
     @GetMapping(path = "/list")
-    public String getAll(Model model) {
+    public ResponseEntity<String> getAll(Model model) {
         Set<String> setOfKeys = apiSvc.getBcList(app);
         JsonArrayBuilder arrOfKeys = Json.createArrayBuilder(setOfKeys);
         String jsonStr = Json.createObjectBuilder()
                 .add("data", arrOfKeys)
                 .build()
                 .toString();
-        model.addAttribute("list", jsonStr);
-        return "getAll";
+        return new ResponseEntity<String>(jsonStr, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{symbol}/{fiat}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public ResponseEntity<String> getSymbol(
             @PathVariable(value = "symbol") String symbol,
             @PathVariable(value = "fiat") String fiat) {
@@ -53,7 +49,6 @@ public class apiController {
     }
 
     @GetMapping(path = "/signal", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public ResponseEntity<String> getSignal(
             @RequestParam(name = "symbol") String symbol) {
 
